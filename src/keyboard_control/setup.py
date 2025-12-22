@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+from glob import glob
+import os
 
 package_name = 'keyboard_control'
 
@@ -8,24 +10,22 @@ setup(
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages',
-            ['resource/' + package_name]),
-        ('share/' + package_name, ['package.xml']),
+            ['resource/keyboard_control']),
+        ('share/keyboard_control', ['package.xml']),
+        (os.path.join('share', 'keyboard_control', 'launch'),
+            glob('launch/*.launch.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='treewinds',
     maintainer_email='Jrh150583@163.com',
-    description='TODO: Package description',
-    license='TODO: License declaration',
-    extras_require={
-        'test': [
-            'pytest',
-        ],
-    },
+    description='Keyboard control for Gazebo car',
+    license='TODO',
     entry_points={
         'console_scripts': [
             'keyboard_car = keyboard_control.keyboard_car_node:main',
             'empty_node = keyboard_control.empty_node:main',
-            ],
+        ],
     },
 )
+

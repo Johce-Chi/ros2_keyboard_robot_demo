@@ -1,0 +1,154 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+
+  <model name="simple_car">
+    <pose>0 0 0.15 0 0 0</pose>
+
+    <!-- ================= 底盘 ================= -->
+    <link name="base_link">
+      <inertial>
+        <mass>5.0</mass>
+        <inertia>
+          <ixx>0.2</ixx>
+          <iyy>0.2</iyy>
+          <izz>0.2</izz>
+        </inertia>
+      </inertial>
+
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.5 0.3 0.2</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.5 0.3 0.2</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.8 1</ambient>
+          <diffuse>0.2 0.2 0.8 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+    </link>
+
+    <!-- ================= 左轮 ================= -->
+    <link name="left_wheel">
+      <pose>0 0.15 0.1 0 1.5708 0</pose>
+
+      <inertial>
+        <mass>0.5</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <iyy>0.001</iyy>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.1</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>0.1</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+
+    <!-- ================= 右轮 ================= -->
+    <link name="right_wheel">
+      <pose>0 -0.15 0.1 0 1.5708 0</pose>
+
+      <inertial>
+        <mass>0.5</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <iyy>0.001</iyy>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.1</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>0.1</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+
+    <!-- ================= 关节 ================= -->
+    <joint name="left_wheel_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>left_wheel</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+      </axis>
+    </joint>
+
+    <joint name="right_wheel_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>right_wheel</child>
+      <axis>
+        <xyz>0 1 0</xyz>
+      </axis>
+    </joint>
+
+    <!-- ================= 差速插件 ================= -->
+    <plugin
+      filename="libgz-sim-diff-drive-system.so"
+      name="gz::sim::systems::DiffDrive">
+
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+
+      <wheel_separation>0.3</wheel_separation>
+      <wheel_radius>0.1</wheel_radius>
+
+      <topic>/cmd_vel</topic>
+    </plugin>
+
+  </model>
+
+</sdf>
+
