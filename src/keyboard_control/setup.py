@@ -14,6 +14,8 @@ setup(
         ('share/keyboard_control', ['package.xml']),
         (os.path.join('share', 'keyboard_control', 'launch'),
             glob('launch/*.launch.py')),
+        (os.path.join('share', 'keyboard_control', 'worlds'),
+        glob('worlds/*.world')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
